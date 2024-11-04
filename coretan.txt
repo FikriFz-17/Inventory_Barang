@@ -1,0 +1,137 @@
+function login (username, password){
+    // Menampilkan form login
+    // Dapatkan username/email?? dari inputan username
+
+    // verifikasi
+    if (verifikasi == true){
+        // arahkan ke halaman utama
+    } else {
+        // Tampilkan pop up akun belum tersedia
+    }
+}
+
+function createBarang(idBarang, namaBarang, jenisBarang, Stok){
+    // Tampilkan form penambahan data barang
+    // Dapatkan data barang (id, nama, jenis, stok) dari inputan user
+
+    // lakukan query untuk menambahkan data barang ke database
+    if (query == valid){
+        // arahkan ke halaman kelola barang dan tampilkan barang yang sudah di tambah
+    } else {
+        // ulangin proses input data barang
+    }
+}
+
+function updateBarang(idBarang, namaBarang, jenisBarang, stok){
+    // dapatkan id barang yang akan di update
+
+
+    // update nilai variabel data barang 
+    $namaBarang = namaBarang baru;
+    $jenisBarang = jenisBarang baru;
+    $stok = stok baru;
+
+    // query untuk update data barang pada database
+
+    // lakukan validasi apakah field data yang akan di update terisi sesuai format
+    if (validasi == valid){
+        // tampilkan update data di halaman kelola data barang
+    } else {
+        // ulangi proses input
+    }
+}
+
+function hapusBarang(idBarang) {
+    // Periksa apakah tombol hapusBarang telah ditekan
+    if (ditekan('hapusBarang')) {
+        // Dapatkan ID barang yang akan dihapus
+        
+
+        // Query untuk menghapus data barang dari database
+        ;
+
+        // Periksa apakah penghapusan berhasil
+        if (hasilDelete) {
+            // tampilkan data yang tersisa di halaman kelola barang
+            
+        } else {
+            // tekan tombol cancel
+            // tampilkan halaman kelola barang
+            
+        }
+    }
+}
+
+
+
+
+function createUser(username, password){
+    // Tampilkan form penambahan user
+    // Dapatkan data user (username, password) dari inputan user
+
+    // lakukan query untuk menambahkan data user ke database
+    if (query == valid){
+        // arahkan ke halaman kelola user dan tampilkan user yang sudah di tambah
+    } else {
+        // ulangin proses input data user
+    }
+}
+
+function updateUser(username, password){
+    // dapatkan data user yang akan di update
+
+
+    // update nilai variabel data user 
+    $username = username baru;
+    $password = password baru;
+
+    // query untuk update data user pada database
+
+    // lakukan validasi apakah field data yang akan di update terisi sesuai format
+    if (validasi == valid){
+        // tampilkan update data di halaman kelola user
+    } else {
+        // ulangi proses input
+    }
+}
+
+function hapusUser(username, password) {
+    // Periksa apakah tombol hapusUser telah ditekan
+    if (ditekan('hapusUser')) {
+        // Dapatkan email dan password yang akan dihapus
+        
+
+        // lakukan query untuk menghapus data user dari database
+        
+
+        // Periksa apakah penghapusan berhasil
+        if (hasilDelete) {
+            // tampilkan data yang tersisa di halaman kelola user
+            
+        } else {
+            // tekan tombol cancel
+            // tampilkan halaman kelola user
+            
+        }
+    }
+}
+
+function export(idBarang, namaBarang, jenisBarang, stok){
+    // dapatkan nilai dari parameter
+    $ID = idBarang;
+    $nama = namaBarang;
+    $jenis = jenisBarang;
+    $stok = stok;
+
+    // Kumpulkan data yang diperlukan
+    $data = getData($ID, $nama, $jenis, $stok);
+
+    // Buat laporan rekap data
+    $report = createReport($data);
+
+    // Konversi laporan rekap data menjadi file PDF
+    $pdf = convertReportToPdf($report);
+    
+    // Simpan file PDF
+    savePdf($pdf);
+}
