@@ -16,9 +16,25 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === TRUE) {
 
 // Cek login terdaftar atau tidak
 if (isset($_POST['login'])) {
-    $email = $_POST['email'];
-    $pass = $_POST['password'];
-    $role = $_POST['role']; 
+    $email = trim($_POST['email']);
+    $pass = trim($_POST['password']);
+    $role = trim($_POST['role']);
+
+    // Validasi input kosong
+    if (empty($email)) {
+        header('location:login.php?error=email+is+required');
+        exit;
+    }
+
+    if (empty($pass)) {
+        header('location:login.php?error=password+is+required');
+        exit;
+    }
+
+    if (empty($role)) {
+        header('location:login.php?error=role+is+required');
+        exit;
+    }
 
     // Periksa email, password, dan role di database
     $cekdata = mysqli_query($conn, "SELECT iduser, role FROM login WHERE email='$email' AND password='$pass'");
@@ -38,12 +54,8 @@ if (isset($_POST['login'])) {
         }
         exit;
     } else {
-        echo '
-            <script>
-                alert("No account found or incorrect role selected. Please contact admin.")
-                window.location.href = "login.php";
-            </script>
-        ';
+        header('location:login.php?error=invalid+credentials+or+role+selected');
+        exit;
     }
 }
 ?>
@@ -73,6 +85,12 @@ if (isset($_POST['login'])) {
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                     <div class="card-body">
                                         <form method="post">
+                                        <?php 
+                                            if (isset($_GET['error'])) { // Periksa apakah parameter 'error' ada di URL
+                                                echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($_GET['error']) . '</div>';
+                                            }
+                                        ?>
+                                            
                                             <div class="form-group">
                                                 <label class="small mb-1" for="inputEmailAddress">Email</label>
                                                 <input class="form-control py-4" name="email" id="  inputEmailAddress" type="email" placeholder="Enter email address" />

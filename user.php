@@ -166,7 +166,7 @@
                                                                             <option value="Admin" <?= $role === 'Admin' ? 'selected' : ''; ?>>Admin</option>
                                                                         </select>
                                                                         <button type="submit" class="btn btn-warning my-3" name="updateUser">Edit</button>
-                                                                        <input type="text" name="id" value="<?=$id;?>">
+                                                                        <input type="hidden" name="id" value="<?=$id;?>">
                                                                     </div>
                                                                 </form>
                                                             </div>
