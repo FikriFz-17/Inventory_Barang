@@ -14,16 +14,23 @@
         if ($result) {
             $row = mysqli_fetch_assoc($result);
             $name = $row['owner_name']; // Ambil nama pemilik dari hasil query
-            
-            
-            $addDB = mysqli_query($conn, "INSERT INTO barang (kode, namabarang, jenisbarang, stock, owner_id, name) VALUES ('$kodeb', '$namaBarang', '$jenis', '$stock', '$ownerId', '$name')");
-            
-            // Redirect berdasarkan role
-            if ($userrole == "Admin") {
-                header('location:index.php');
-            } else {
-                header('location:index2.php');
+            if($stock > 0){
+                $addDB = mysqli_query($conn, "INSERT INTO barang (kode, namabarang, jenisbarang, stock, owner_id, name) VALUES ('$kodeb', '$namaBarang', '$jenis', '$stock', '$ownerId', '$name')");
+                if ($userrole == "Admin") {
+                    header('location:index.php');
+                } else {
+                    header('location:index2.php');
+                }
+            }else {
+                if ($userrole == "Admin") {
+                    header('location:index.php?error=Invalid+stock');
+                } else {
+                    header('location:index2.php?error=Invalid+stock');
+                }
+                exit;
             }
+
+
         } else {
             echo "Error: " . mysqli_error($conn);
         }
