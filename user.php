@@ -136,12 +136,17 @@
                                             
                                                     <tr>
                                                         <td><?=$email;?></td>
-                                                        <td><?=$password;?></td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <input type="password" id="password<?=$id;?>" value="<?=$password;?>" readonly class="form-control-sm" style="width: auto; border:none; background:transparent;">
+                                                                <button type="button" class="btn btn-sm btn-outline-primary ml-2" onclick="togglePassword('password<?=$id;?>')">Show</button>
+                                                            </div>
+                                                        </td>
+
                                                         <td><?=$role;?></td>
                                                         <td>
-                                                            <button type="submit" class="btn btn-warning my-3" data-toggle="modal" data-target="#edit<?=$id;?>">Edit</button>
-
-                                                            <button type="submit" class="btn btn-danger my-3" data-toggle="modal" data-target="#delete<?=$id;?>">Delete</button>
+                                                            <button type="submit" class="btn btn-warning btn-sm my-1" data-toggle="modal" data-target="#edit<?=$id;?>">Edit</button>
+                                                            <button type="submit" class="btn btn-danger btn-sm my-1" data-toggle="modal" data-target="#delete<?=$id;?>">Delete</button>
                                                         </td>
                                                     </tr>
 
@@ -230,5 +235,14 @@
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/datatables-demo.js"></script>
+        function togglePassword(fieldId) {
+            const passwordField = document.getElementById(fieldId);
+            const currentType = passwordField.type;
+            if (currentType === 'password') {
+                passwordField.type = 'text';
+            } else {
+                    passwordField.type = 'password';
+            }
+        }
     </body>
 </html>
