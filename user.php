@@ -235,14 +235,16 @@
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/datatables-demo.js"></script>
-        function togglePassword(fieldId) {
-            const passwordField = document.getElementById(fieldId);
-            const currentType = passwordField.type;
-            if (currentType === 'password') {
-                passwordField.type = 'text';
-            } else {
+        <script>
+            function togglePassword(fieldId) {
+                const passwordField = document.getElementById(fieldId);
+                const currentType = passwordField.type;
+                if (currentType === 'password') {
+                    passwordField.type = 'text';
+                } else {
                     passwordField.type = 'password';
+                }
             }
-        }
+        </script>
     </body>
 </html>
