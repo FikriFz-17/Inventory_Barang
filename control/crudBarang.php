@@ -23,9 +23,19 @@
                 }
             }else {
                 if ($userrole == "Admin") {
-                    header('location:index.php?error=Invalid+stock');
+                    $message = "Stock barang tidak valid";
+                    echo "<script type='text/javascript'>
+                            window.location.href=\"/stockbarang/user.php\";
+                                    alert('$message');
+                        </script>";  
+                    exit;
                 } else {
-                    header('location:index2.php?error=Invalid+stock');
+                    $message = "Stock barang tidak valid";
+                    echo "<script type='text/javascript'>
+                            window.location.href=\"/stockbarang/user.php\";
+                                    alert('$message');
+                        </script>";  
+                    exit;
                 }
                 exit;
             }
