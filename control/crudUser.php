@@ -24,15 +24,34 @@ if (isset($_POST['updateUser'])) {
     $pass = $_POST['pass'];
     $role = $_POST['role']; // Ambil nilai role dari form
 
-    // Update email, password, dan role berdasarkan iduser
-    $update = mysqli_query($conn, "UPDATE login SET email='$email', password='$pass', role='$role' WHERE iduser='$id'");
+    // Cek apakah email sudah terdaftar
+    $checkEmail = mysqli_query($conn, "SELECT iduser FROM login WHERE email='$email' AND iduser != '$id'");
     
-    if ($update) {
-        header('location:user.php');
+    if (mysqli_num_rows($checkEmail) > 0) {
+        // Jika email sudah ada, redirect dengan pesan error
+        $message = "Email yang anda masukkan sudah terdaftar";
+        echo "<script type='text/javascript'>
+                window.location.href=\"/stockbarang/user.php\";
+                alert('$message');
+            </script>";  
+        exit;
     } else {
-        header('location:user.php');
+        // Jika email belum terdaftar, lanjutkan update
+        $update = mysqli_query($conn, "UPDATE login SET email='$email', password='$pass', role='$role' WHERE iduser='$id'");
+        
+        if ($update) {
+            $message = "Data berhasil diperbarui";
+        echo "<script type='text/javascript'>
+                window.location.href=\"/stockbarang/user.php\";
+                alert('$message');
+            </script>";  
+        exit;
+        } else {
+            header('location:user.php?error=Gagal memperbarui data');
+        }
     }
 }
+
 
 // Fungsi untuk menghapus pengguna
 if (isset($_POST['hapusUser'])) {
