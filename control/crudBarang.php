@@ -57,26 +57,46 @@
 
 
         if ($userrole == "Admin") {
-            if (is_numeric($jenis) || is_numeric($namaBarang)) {
-                return header('location:index.php?error=Nama+barang+tidak+boleh+berupa+nomor');
+            if (is_numeric($jenis) || is_numeric($namaBarang) || is_numeric($owner)) {
+                $message = "Jenis, nama barang, dan nama pemilik tidak boleh angka saja";
+                    echo "<script type='text/javascript'>
+                            window.location.href=\"/stockbarang/index.php\";
+                                    alert('$message');
+                        </script>";  
+                exit;
             }
             
-            if (gettype($namaBarang) == "string" && gettype($jenis) == "string" && $stock > 0) {
+            if ($stock > 0) {
                 $update = mysqli_query($conn, "UPDATE barang SET namabarang='$namaBarang', jenisbarang='$jenis', stock=$stock, name='$owner' WHERE idbarang='$id'");
                 header('location:index.php');
             } else {
-                header('location:index.php?error=Pastikan+field+nama,+jenis,+stock+terisi');
+                $message = "Stock barang tidak valid";
+                    echo "<script type='text/javascript'>
+                            window.location.href=\"/stockbarang/index.php\";
+                                    alert('$message');
+                        </script>";  
+                exit;
             }
         } else {
             if (is_numeric($jenis) || is_numeric($namaBarang)) {
-                return header('location:index2.php?error=Nama+barang+tidak+boleh+berupa+nomor');
+                $message = "Jenis dan nama barang tidak boleh angka saja";
+                    echo "<script type='text/javascript'>
+                            window.location.href=\"/stockbarang/index2.php\";
+                                    alert('$message');
+                        </script>";  
+                exit;
             }
 
-            if (gettype($namaBarang) == "string" && gettype($jenis) == "string" && $stock > 0) {
+            if ($stock > 0) {
                 $update = mysqli_query($conn, "UPDATE barang SET namabarang='$namaBarang', jenisbarang='$jenis', stock=$stock, name='$owner' WHERE idbarang='$id' AND owner_id='$ownerId'");
                 header('location:index2.php');
             } else {
-                header('location:index2.php?error=Pastikan+field+nama,+jenis,+stock+terisi');
+                $message = "Stock barang tidak valid";
+                    echo "<script type='text/javascript'>
+                            window.location.href=\"/stockbarang/index2.php\";
+                                    alert('$message');
+                        </script>";  
+                exit;
             }
         }
     }
