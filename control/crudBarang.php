@@ -14,16 +14,33 @@
         if ($result) {
             $row = mysqli_fetch_assoc($result);
             $name = $row['owner_name']; // Ambil nama pemilik dari hasil query
-            
-            
-            $addDB = mysqli_query($conn, "INSERT INTO barang (kode, namabarang, jenisbarang, stock, owner_id, name) VALUES ('$kodeb', '$namaBarang', '$jenis', '$stock', '$ownerId', '$name')");
-            
-            // Redirect berdasarkan role
-            if ($userrole == "Admin") {
-                header('location:index.php');
-            } else {
-                header('location:index2.php');
+            if($stock > 0){
+                $addDB = mysqli_query($conn, "INSERT INTO barang (kode, namabarang, jenisbarang, stock, owner_id, name) VALUES ('$kodeb', '$namaBarang', '$jenis', '$stock', '$ownerId', '$name')");
+                if ($userrole == "Admin") {
+                    header('location:index.php');
+                } else {
+                    header('location:index2.php');
+                }
+            }else {
+                if ($userrole == "Admin") {
+                    $message = "Stock barang tidak valid";
+                    echo "<script type='text/javascript'>
+                            window.location.href=\"/stockbarang/user.php\";
+                                    alert('$message');
+                        </script>";  
+                    exit;
+                } else {
+                    $message = "Stock barang tidak valid";
+                    echo "<script type='text/javascript'>
+                            window.location.href=\"/stockbarang/user.php\";
+                                    alert('$message');
+                        </script>";  
+                    exit;
+                }
+                exit;
             }
+
+
         } else {
             echo "Error: " . mysqli_error($conn);
         }
