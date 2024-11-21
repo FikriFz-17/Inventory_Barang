@@ -132,6 +132,10 @@
                                                     $email = $data['email'];
                                                     $password = $data['password'];
                                                     $role = $data['role'];
+
+                                                    if ($role == 'Admin') {
+                                                        continue;
+                                                    }
                                             ?>
                                             
                                                     <tr>
