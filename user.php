@@ -91,7 +91,7 @@
                                         <!-- Modal body -->
                                         <form method="post">
                                             <div class="modal-body">
-                                                <input type="text" name="email" placeholder="email" class="form-control my-3" required>
+                                                <input type="email" name="email" placeholder="email" class="form-control my-3" required>
                                                 <input type="text" name="password" placeholder="Password" class="form-control my-3" required>
                                                 <select class="form-control mb-3" aria-label="Default select example" name="role">
                                                     <option   option value="User" selected>User</option>
@@ -159,7 +159,7 @@
                                                                 <!-- Modal body -->
                                                                 <form method="post">
                                                                     <div class="modal-body">
-                                                                        <input type="text" name="email" value="<?=$email;?>" class="form-control my-3" required>
+                                                                        <input type="email" name="email" value="<?=$email;?>" class="form-control my-3" required>
                                                                         <input type="text" name="pass" value="<?=$password;?>" class="form-control my-3" required>
                                                                         <select class="form-control mb-3" aria-label="Default select example" name="role">
                                                                             <option value="User" <?= $role === 'User' ? 'selected' : ''; ?>>User</option>
