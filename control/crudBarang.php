@@ -55,12 +55,29 @@
         $ownerId = $_POST['userId'];
         $owner = $_POST['owner'];
 
+
         if ($userrole == "Admin") {
-            $update = mysqli_query($conn, "UPDATE barang SET namabarang='$namaBarang', jenisbarang='$jenis', stock=$stock, name='$owner' WHERE idbarang='$id'");
-            header('location:index.php');
+            if (is_numeric($jenis) || is_numeric($namaBarang)) {
+                return header('location:index.php?error=Nama+barang+tidak+boleh+berupa+nomor');
+            }
+            
+            if (gettype($namaBarang) == "string" && gettype($jenis) == "string" && $stock > 0) {
+                $update = mysqli_query($conn, "UPDATE barang SET namabarang='$namaBarang', jenisbarang='$jenis', stock=$stock, name='$owner' WHERE idbarang='$id'");
+                header('location:index.php');
+            } else {
+                header('location:index.php?error=Pastikan+field+nama,+jenis,+stock+terisi');
+            }
         } else {
-            $update = mysqli_query($conn, "UPDATE barang SET namabarang='$namaBarang', jenisbarang='$jenis', stock=$stock, name='$owner' WHERE idbarang='$id' AND owner_id='$ownerId'");
-            header('location:index2.php');
+            if (is_numeric($jenis) || is_numeric($namaBarang)) {
+                return header('location:index2.php?error=Nama+barang+tidak+boleh+berupa+nomor');
+            }
+
+            if (gettype($namaBarang) == "string" && gettype($jenis) == "string" && $stock > 0) {
+                $update = mysqli_query($conn, "UPDATE barang SET namabarang='$namaBarang', jenisbarang='$jenis', stock=$stock, name='$owner' WHERE idbarang='$id' AND owner_id='$ownerId'");
+                header('location:index2.php');
+            } else {
+                header('location:index2.php?error=Pastikan+field+nama,+jenis,+stock+terisi');
+            }
         }
     }
 
