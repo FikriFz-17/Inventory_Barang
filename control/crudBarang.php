@@ -25,14 +25,14 @@
                 if ($userrole == "Admin") {
                     $message = "Stock barang tidak valid";
                     echo "<script type='text/javascript'>
-                            window.location.href=\"/stockbarang/user.php\";
+                            window.location.href=\"/stockbarang/index.php\";
                                     alert('$message');
                         </script>";  
                     exit;
                 } else {
                     $message = "Stock barang tidak valid";
                     echo "<script type='text/javascript'>
-                            window.location.href=\"/stockbarang/user.php\";
+                            window.location.href=\"/stockbarang/index2.php\";
                                     alert('$message');
                         </script>";  
                     exit;
