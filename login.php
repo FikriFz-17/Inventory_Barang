@@ -22,17 +22,17 @@ if (isset($_POST['login'])) {
 
     // Validasi input kosong
     if (empty($email)) {
-        header('location:login.php?error=email+is+required');
+        header('location:login.php?error=Email+harus+diisi');
         exit;
     }
 
     if (empty($pass)) {
-        header('location:login.php?error=password+is+required');
+        header('location:login.php?error=Password+harus+diisi');
         exit;
     }
 
     if (empty($role)) {
-        header('location:login.php?error=role+is+required');
+        header('location:login.php?error=Harap+masukkan+role');
         exit;
     }
 
@@ -54,7 +54,7 @@ if (isset($_POST['login'])) {
         }
         exit;
     } else {
-        header('location:login.php?error=invalid+credentials+or+role+selected');
+        header('location:login.php?error=Credential+atau+role+tidak+valid');
         exit;
     }
 }
