@@ -27,7 +27,7 @@
                     echo "<script type='text/javascript'>
                             window.location.href=\"/stockbarang/index.php\";
                                     alert('$message');
-                        </script>";  
+                        </script>";    
                     exit;
                 } else {
                     $message = "Stock barang tidak valid";
@@ -58,11 +58,8 @@
 
         if ($userrole == "Admin") {
             if (is_numeric($jenis) || is_numeric($namaBarang) || is_numeric($owner)) {
-                $message = "Jenis, nama barang, dan nama pemilik tidak boleh angka saja";
-                    echo "<script type='text/javascript'>
-                            window.location.href=\"/stockbarang/index.php\";
-                                    alert('$message');
-                        </script>";  
+                $_SESSION['errorMessage'] = "Jenis barang, nama barang, dan nama pemilik tidak boleh angka saja.";
+                header("Location:index.php");
                 exit;
             }
             
@@ -70,20 +67,14 @@
                 $update = mysqli_query($conn, "UPDATE barang SET namabarang='$namaBarang', jenisbarang='$jenis', stock=$stock, name='$owner' WHERE idbarang='$id'");
                 header('location:index.php');
             } else {
-                $message = "Stock barang tidak valid";
-                    echo "<script type='text/javascript'>
-                            window.location.href=\"/stockbarang/index.php\";
-                                    alert('$message');
-                        </script>";  
+                $_SESSION['errorMessage'] = "Stock barang tidak valid";
+                header("Location:index.php");
                 exit;
             }
         } else {
             if (is_numeric($jenis) || is_numeric($namaBarang)) {
-                $message = "Jenis dan nama barang tidak boleh angka saja";
-                    echo "<script type='text/javascript'>
-                            window.location.href=\"/stockbarang/index2.php\";
-                                    alert('$message');
-                        </script>";  
+                $_SESSION['errorMessage'] = "Jenis barang dan nama barang tidak boleh angka saja.";
+                header("Location:index2.php");
                 exit;
             }
 
@@ -91,11 +82,8 @@
                 $update = mysqli_query($conn, "UPDATE barang SET namabarang='$namaBarang', jenisbarang='$jenis', stock=$stock, name='$owner' WHERE idbarang='$id' AND owner_id='$ownerId'");
                 header('location:index2.php');
             } else {
-                $message = "Stock barang tidak valid";
-                    echo "<script type='text/javascript'>
-                            window.location.href=\"/stockbarang/index2.php\";
-                                    alert('$message');
-                        </script>";  
+                $_SESSION['errorMessage'] = "Stock barang tidak valid";
+                header("Location:index2.php");
                 exit;
             }
         }
