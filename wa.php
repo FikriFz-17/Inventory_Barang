@@ -1,5 +1,5 @@
 <?php
-$phone = "6285299699662"; 
+$phone = "6281539819240"; 
 
 $message = "Bang daftarin gw bang";
 

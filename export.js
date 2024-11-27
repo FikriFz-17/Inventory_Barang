@@ -25,6 +25,6 @@ $(document).ready(function () {
 
   // Trigger Print Button dari Tombol Custom
   $('#export-btn').on('click', function () {
-      table.button('.buttons-excel').trigger(); // pdf : "buttons-print" excel : "buttons-excel"
+      table.button('.buttons-print').trigger(); // pdf : "buttons-print" excel : "buttons-excel"
   });
 });

@@ -80,7 +80,7 @@
                                 </button>
 
                                 <a id="export-btn" class="btn btn-info" role="button">Export</a>
-                                <a id="export-btn" class="btn btn-info" role="button">Export</a>
+                                
 
                                 <!-- The Modals -->
                                 <div class="modal fade" id="myModal">
