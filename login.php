@@ -93,14 +93,14 @@ if (isset($_POST['login'])) {
                                             
                                             <div class="form-group">
                                                 <label class="small mb-1" for="inputEmailAddress">Email</label>
-                                                <input class="form-control py-4" name="email" id="  inputEmailAddress" type="email" placeholder="Enter email address" />
+                                                <input class="form-control py-4" name="email" id="  inputEmailAddress" type="email" placeholder="Masukkan alamat email" />
                                             </div>
                                             <div class="form-group">
                                                 <label class="small mb-1" for="inputPassword">Password</label>
-                                                <input class="form-control py-4" name="password" id="inputPassword" type="password" placeholder="Enter password" />
+                                                <input class="form-control py-4" name="password" id="inputPassword" type="password" placeholder="Masukkan password" />
                                             </div>
                                             <div class="mb-1">
-                                                <label class="form-label">Select User Type</label>
+                                                <label class="form-label">Pilih Role</label>
                                             </div>
                                             <select class="form-control mb-3" aria-label="Default select example" name="role">
                                                 <option value="User" selected>User</option>
