@@ -65,15 +65,9 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`iduser`, `email`, `password`, `role`) VALUES
-<<<<<<< HEAD
-(1, 'admin@gmail.com', 'admin123', 'Admin'),
-(5, 'fikri123@gmail.com', 'fikri123', 'User'),
-(10, 'user1@gmail.com', 'user124', 'User');
-=======
 (1, 'admin@gmail.com', '$2y$10$DrlIKgPd916ZaZ73aiAU7.emusmicaYHyB584GVLg5dkisFunsG/i', 'Admin'),
 (5, 'fikri123@gmail.com', '$2y$10$yZjSMeZKVDInFA4N5SkAkOOu85QXyY4tCHMViIJjN/UVOni0y4GRS', 'User'),
 (10, 'user1@gmail.com', '$2y$10$yyKHnn6qeDGYbisrH2fL9eYnt4hYJOetOlpV2Hx7v4rYqfaHEQ6GC', 'User');
->>>>>>> ba514db (Update 13 December)
 
 --
 -- Indexes for dumped tables

@@ -85,13 +85,8 @@
                                         <!-- Modal body -->
                                         <form method="post">
                                             <div class="modal-body">
-<<<<<<< HEAD
-                                                <input type="text" name="email" placeholder="email" class="form-control my-3" required>
-                                                <input type="text" name="password" placeholder="Password" class="form-control my-3" required>
-=======
                                                 <input type="email" name="email" placeholder="email" class="form-control my-3" required>
                                                 <input type="password" name="password" placeholder="Password" class="form-control my-3" required>
->>>>>>> ba514db (Update 13 December)
                                                 <select class="form-control mb-3" aria-label="Default select example" name="role">
                                                     <option   option value="User" selected>User</option>
                                                     <option value="Admin">Admin</option>
@@ -117,10 +112,6 @@
                                         <thead>
                                             <tr>
                                                 <th>Email</th>
-<<<<<<< HEAD
-                                                <th>Password</th>
-=======
->>>>>>> ba514db (Update 13 December)
                                                 <th>Role</th>
                                                 <th>Aksi</th>
                                             </tr>
@@ -132,25 +123,6 @@
                                                 while ($data = mysqli_fetch_array($selectALL)) {
                                                     $id = $data['iduser'];
                                                     $email = $data['email'];
-<<<<<<< HEAD
-                                                    $password = $data['password'];
-                                                    $role = $data['role'];
-                                            ?>
-                                            
-                                                    <tr>
-                                                        <td><?=$email;?></td>
-                                                        <td>
-                                                            <div class="d-flex align-items-center">
-                                                                <input type="password" id="password<?=$id;?>" value="<?=$password;?>" readonly class="form-control-sm" style="width: auto; border:none; background:transparent;">
-                                                                <button type="button" class="btn btn-sm btn-outline-primary ml-2" onclick="togglePassword('password<?=$id;?>')">Show</button>
-                                                            </div>
-                                                        </td>
-
-                                                        <td><?=$role;?></td>
-                                                        <td>
-                                                            <button type="submit" class="btn btn-warning btn-sm my-1" data-toggle="modal" data-target="#edit<?=$id;?>">Edit</button>
-                                                            <button type="submit" class="btn btn-danger btn-sm my-1" data-toggle="modal" data-target="#delete<?=$id;?>">Delete</button>
-=======
                                                     $role = $data['role'];
                                                     if ($role == 'Admin') {
                                                         continue;
@@ -163,7 +135,6 @@
                                                         <td>
                                                             <button type="button" class="btn btn-warning btn-sm my-1" data-toggle="modal" data-target="#edit<?= $id; ?>">Edit</button>
                                                             <button type="button" class="btn btn-danger btn-sm my-1" data-toggle="modal" data-target="#delete<?= $id; ?>">Delete</button>
->>>>>>> ba514db (Update 13 December)
                                                         </td>
                                                     </tr>
 
@@ -181,13 +152,8 @@
                                                                 <!-- Modal body -->
                                                                 <form method="post">
                                                                     <div class="modal-body">
-<<<<<<< HEAD
-                                                                        <input type="text" name="email" value="<?=$email;?>" class="form-control my-3" required>
-                                                                        <input type="text" name="pass" value="<?=$password;?>" class="form-control my-3" required>
-=======
                                                                         <input type="email" name="email" value="<?= htmlspecialchars($email); ?>" class="form-control my-3" required>
                                                                         <input type="password" name="pass" placeholder="Password" class="form-control my-3">
->>>>>>> ba514db (Update 13 December)
                                                                         <select class="form-control mb-3" aria-label="Default select example" name="role">
                                                                             <option value="User" <?= $role === 'User' ? 'selected' : ''; ?>>User</option>
                                                                             <option value="Admin" <?= $role === 'Admin' ? 'selected' : ''; ?>>Admin</option>
@@ -214,11 +180,7 @@
                                                                 <!-- Modal body -->
                                                                 <form method="post">
                                                                     <div class="modal-body">
-<<<<<<< HEAD
-                                                                        Hapus email user <?=$email;?>?
-=======
                                                                         Hapus user dengan email <?= htmlspecialchars($email); ?>?
->>>>>>> ba514db (Update 13 December)
                                                                         <input type="hidden" name="id" value="<?=$id;?>">
                                                                         <br>
                                                                         <button type="submit" class="btn btn-danger my-3" name="hapusUser">Delete</button>
@@ -261,19 +223,5 @@
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="assets/demo/datatables-demo.js"></script>
-<<<<<<< HEAD
-        <script>
-            function togglePassword(fieldId) {
-                const passwordField = document.getElementById(fieldId);
-                const currentType = passwordField.type;
-                if (currentType === 'password') {
-                    passwordField.type = 'text';
-                } else {
-                    passwordField.type = 'password';
-                }
-            }
-        </script>
-=======
->>>>>>> ba514db (Update 13 December)
     </body>
 </html>

@@ -6,16 +6,6 @@ if (isset($_POST['add'])){
     $email = $_POST['email'];
     $password = $_POST['password'];
     $role = $_POST['role']; // Ambil nilai role dari form
-<<<<<<< HEAD
-
-    // Tambahkan pengguna baru dengan email, password, dan role
-    $add = mysqli_query($conn, "INSERT INTO login (email, password, role) VALUES ('$email','$password', '$role')");
-    
-    if ($add) {
-        header('location:user.php');
-    } else {
-        header('location:user.php');
-=======
     // Cek apakah email sudah terdaftar
     $checkEmail = $conn->prepare("SELECT iduser FROM login WHERE email = ?");
     $checkEmail->bind_param("s", $email);
@@ -46,7 +36,6 @@ if (isset($_POST['add'])){
             header('location:user.php');
         }
         $stmt->close();
->>>>>>> ba514db (Update 13 December)
     }
 }
 
@@ -56,19 +45,6 @@ if (isset($_POST['updateUser'])) {
     $email = $_POST['email'];
     $pass = $_POST['pass'];
     $role = $_POST['role']; // Ambil nilai role dari form
-<<<<<<< HEAD
-
-    // Update email, password, dan role berdasarkan iduser
-    $update = mysqli_query($conn, "UPDATE login SET email='$email', password='$pass', role='$role' WHERE iduser='$id'");
-    
-    if ($update) {
-        header('location:user.php');
-    } else {
-        header('location:user.php');
-    }
-}
-
-=======
     
     // Cek apakah email sudah terdaftar
     $checkEmail = $conn->prepare("SELECT iduser FROM login WHERE email=? AND iduser != ?");
@@ -108,30 +84,19 @@ if (isset($_POST['updateUser'])) {
 }
 
 
->>>>>>> ba514db (Update 13 December)
 // Fungsi untuk menghapus pengguna
 if (isset($_POST['hapusUser'])) {
     $id = $_POST['id'];
 
-<<<<<<< HEAD
-    // Hapus pengguna berdasarkan iduser
-    $delete = mysqli_query($conn, "DELETE FROM login WHERE iduser='$id'");
-    
-    if ($delete) {
-=======
     // Gunakan prepared statement untuk menghapus data
     $stmt = $conn->prepare("DELETE FROM login WHERE iduser=?");
     $stmt->bind_param("i", $id);
 
     if ($stmt->execute()) {
->>>>>>> ba514db (Update 13 December)
         header('location:user.php');
     } else {
         header('location:user.php');
     }
-<<<<<<< HEAD
-=======
     $stmt->close();
->>>>>>> ba514db (Update 13 December)
 }
 ?>

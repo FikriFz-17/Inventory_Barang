@@ -14,18 +14,6 @@
         if ($result) {
             $row = mysqli_fetch_assoc($result);
             $name = $row['owner_name']; // Ambil nama pemilik dari hasil query
-<<<<<<< HEAD
-            
-            
-            $addDB = mysqli_query($conn, "INSERT INTO barang (kode, namabarang, jenisbarang, stock, owner_id, name) VALUES ('$kodeb', '$namaBarang', '$jenis', '$stock', '$ownerId', '$name')");
-            
-            // Redirect berdasarkan role
-            if ($userrole == "Admin") {
-                header('location:index.php');
-            } else {
-                header('location:index2.php');
-            }
-=======
             if($stock > 0){
                 $addDB = mysqli_query($conn, "INSERT INTO barang (kode, namabarang, jenisbarang, stock, owner_id, name) VALUES ('$kodeb', '$namaBarang', '$jenis', '$stock', '$ownerId', '$name')");
                 if ($userrole == "Admin") {
@@ -53,7 +41,6 @@
             }
 
 
->>>>>>> ba514db (Update 13 December)
         } else {
             echo "Error: " . mysqli_error($conn);
         }
@@ -68,14 +55,6 @@
         $ownerId = $_POST['userId'];
         $owner = $_POST['owner'];
 
-<<<<<<< HEAD
-        if ($userrole == "Admin") {
-            $update = mysqli_query($conn, "UPDATE barang SET namabarang='$namaBarang', jenisbarang='$jenis', stock=$stock, name='$owner' WHERE idbarang='$id'");
-            header('location:index.php');
-        } else {
-            $update = mysqli_query($conn, "UPDATE barang SET namabarang='$namaBarang', jenisbarang='$jenis', stock=$stock, name='$owner' WHERE idbarang='$id' AND owner_id='$ownerId'");
-            header('location:index2.php');
-=======
 
         if ($userrole == "Admin") {
             if (is_numeric($jenis) || is_numeric($namaBarang) || is_numeric($owner)) {
@@ -107,7 +86,6 @@
                 header("Location:index2.php");
                 exit;
             }
->>>>>>> ba514db (Update 13 December)
         }
     }
 
@@ -124,8 +102,4 @@
             header('location:index2.php');
         }
     }
-<<<<<<< HEAD
 ?>
-=======
-?>
->>>>>>> ba514db (Update 13 December)
