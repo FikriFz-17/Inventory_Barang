@@ -70,6 +70,7 @@ if (isset($_POST['updateUser'])) {
         $stmt->bind_param("sssi", $email, $hashedPassword, $role, $id);
         
         if ($stmt->execute()) {
+
             $message = "Data berhasil diperbarui";
         echo "<script type='text/javascript'>
                 window.location.href=\"/stockbarang/user.php\";
