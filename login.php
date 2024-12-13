@@ -37,14 +37,19 @@ if (isset($_POST['login'])) {
     }
 
     // Periksa email, password, dan role di database
-    $cekdata = mysqli_query($conn, "SELECT iduser, role FROM login WHERE email='$email' AND password='$pass'");
-    $data = mysqli_fetch_array($cekdata);
+    $query = mysqli_prepare($conn, "SELECT iduser, password, role FROM login WHERE email = ?");
+    mysqli_stmt_bind_param($query, "s", $email);
+    mysqli_stmt_execute($query);
+    mysqli_stmt_bind_result($query, $iduser, $hashed_password, $user_role);
+    mysqli_stmt_fetch($query);
+    mysqli_stmt_close($query);
 
-    if ($data && $data['role'] == $role) {
+    // Verifikasi password dan role
+    if ($hashed_password && password_verify($pass, $hashed_password) && $role === $user_role) {
         $_SESSION['login'] = TRUE;
         $_SESSION['email'] = $email;
-        $_SESSION['userId'] = $data["iduser"];
-        $_SESSION['role'] = $data['role'];
+        $_SESSION['userId'] = $iduser;
+        $_SESSION['role'] = $user_role;
         
         // Redirect berdasarkan role
         if ($role == "Admin") {
