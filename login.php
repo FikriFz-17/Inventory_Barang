@@ -22,21 +22,34 @@ if (isset($_POST['login'])) {
 
     // Validasi input kosong
     if (empty($email)) {
+<<<<<<< HEAD
         header('location:login.php?error=email+is+required');
+=======
+        header('location:login.php?error=Email+harus+diisi');
+>>>>>>> ba514db (Update 13 December)
         exit;
     }
 
     if (empty($pass)) {
+<<<<<<< HEAD
         header('location:login.php?error=password+is+required');
+=======
+        header('location:login.php?error=Password+harus+diisi');
+>>>>>>> ba514db (Update 13 December)
         exit;
     }
 
     if (empty($role)) {
+<<<<<<< HEAD
         header('location:login.php?error=role+is+required');
+=======
+        header('location:login.php?error=Harap+masukkan+role');
+>>>>>>> ba514db (Update 13 December)
         exit;
     }
 
     // Periksa email, password, dan role di database
+<<<<<<< HEAD
     $cekdata = mysqli_query($conn, "SELECT iduser, role FROM login WHERE email='$email' AND password='$pass'");
     $data = mysqli_fetch_array($cekdata);
 
@@ -45,6 +58,21 @@ if (isset($_POST['login'])) {
         $_SESSION['email'] = $email;
         $_SESSION['userId'] = $data["iduser"];
         $_SESSION['role'] = $data['role'];
+=======
+    $query = mysqli_prepare($conn, "SELECT iduser, password, role FROM login WHERE email = ?");
+    mysqli_stmt_bind_param($query, "s", $email);
+    mysqli_stmt_execute($query);
+    mysqli_stmt_bind_result($query, $iduser, $hashed_password, $user_role);
+    mysqli_stmt_fetch($query);
+    mysqli_stmt_close($query);
+
+    // Verifikasi password dan role
+    if ($hashed_password && password_verify($pass, $hashed_password) && $role === $user_role) {
+        $_SESSION['login'] = TRUE;
+        $_SESSION['email'] = $email;
+        $_SESSION['userId'] = $iduser;
+        $_SESSION['role'] = $user_role;
+>>>>>>> ba514db (Update 13 December)
         
         // Redirect berdasarkan role
         if ($role == "Admin") {
@@ -54,7 +82,11 @@ if (isset($_POST['login'])) {
         }
         exit;
     } else {
+<<<<<<< HEAD
         header('location:login.php?error=invalid+credentials+or+role+selected');
+=======
+        header('location:login.php?error=Credential+atau+role+tidak+valid');
+>>>>>>> ba514db (Update 13 December)
         exit;
     }
 }
@@ -93,6 +125,7 @@ if (isset($_POST['login'])) {
                                             
                                             <div class="form-group">
                                                 <label class="small mb-1" for="inputEmailAddress">Email</label>
+<<<<<<< HEAD
                                                 <input class="form-control py-4" name="email" id="  inputEmailAddress" type="email" placeholder="Enter email address" />
                                             </div>
                                             <div class="form-group">
@@ -101,6 +134,16 @@ if (isset($_POST['login'])) {
                                             </div>
                                             <div class="mb-1">
                                                 <label class="form-label">Select User Type</label>
+=======
+                                                <input class="form-control py-4" name="email" id="  inputEmailAddress" type="email" placeholder="Masukkan alamat email" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="small mb-1" for="inputPassword">Password</label>
+                                                <input class="form-control py-4" name="password" id="inputPassword" type="password" placeholder="Masukkan password" />
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Pilih Role</label>
+>>>>>>> ba514db (Update 13 December)
                                             </div>
                                             <select class="form-control mb-3" aria-label="Default select example" name="role">
                                                 <option value="User" selected>User</option>
@@ -129,4 +172,8 @@ if (isset($_POST['login'])) {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
     </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> ba514db (Update 13 December)

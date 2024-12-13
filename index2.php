@@ -18,8 +18,15 @@
         <meta name="author" content="" />
         <title>Inventory</title>
         <link href="css/styles.css" rel="stylesheet" />
+<<<<<<< HEAD
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+=======
+        <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+>>>>>>> ba514db (Update 13 December)
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -72,7 +79,12 @@
                                     Tambah Barang
                                 </button>
 
+<<<<<<< HEAD
                                 <a href="export.php" class="btn btn-info" role="button">Export</a>
+=======
+                                <a id="export-btn" class="btn btn-info" role="button">Export</a>
+                                
+>>>>>>> ba514db (Update 13 December)
 
                                 <!-- The Modals -->
                                 <div class="modal fade" id="myModal">
@@ -200,6 +212,20 @@
                                                                         <input type="hidden" name="kodeb" value="<?=$kodeb;?>">
                                                                     </div>
                                                                 </form>
+<<<<<<< HEAD
+=======
+                                                                <?php if (!empty($_SESSION['errorMessage'])): ?>
+                                                                    <script>
+                                                                        Swal.fire({
+                                                                            icon: 'error',
+                                                                            title: 'Input Tidak Valid!',
+                                                                            text: '<?= $_SESSION['errorMessage']; ?>',
+                                                                            confirmButtonText: 'Kembali'
+                                                                        });
+                                                                    </script>
+                                                                    <?php unset($_SESSION['errorMessage']); // Hapus setelah ditampilkan ?>
+                                                                <?php endif; ?>
+>>>>>>> ba514db (Update 13 December)
                                                             </div>
                                                             </div>
                                                         </div>
@@ -254,6 +280,7 @@
                 </footer>
             </div>
         </div>
+<<<<<<< HEAD
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
@@ -265,3 +292,24 @@
         <script src="assets/demo/datatables-demo.js"></script>
     </body>
 </html>
+=======
+
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+        
+        <!-- jquery export -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> <!-- plugin kalo mau export ke excel -->
+        <!-- jquery end -->
+        <script src="export.js"></script>
+    </body>
+</html>
+>>>>>>> ba514db (Update 13 December)
