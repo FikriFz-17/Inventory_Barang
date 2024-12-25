@@ -1,7 +1,7 @@
 <?php
 require_once "./Connection/function.php";
 
-class UserManagement {
+class crudUser {
     private $conn;
     
     public function __construct($connection) {
@@ -84,48 +84,21 @@ class UserManagement {
     }
     
     private function isEmailExists($email, $excludeId = null) {
-        $query = "SELECT iduser FROM login WHERE email = ?";
-        $params = ["s", $email];
-        
         if ($excludeId !== null) {
-            $query .= " AND iduser != ?";
-            $params = ["si", $email, $excludeId];
+            $stmt = $this->conn->prepare("SELECT iduser FROM login WHERE email = ? AND iduser != ?");
+            // Create references for bind_param
+            $stmt->bind_param("si", $email, $excludeId);
+        } else {
+            $stmt = $this->conn->prepare("SELECT iduser FROM login WHERE email = ?");
+            // Create reference for bind_param
+            $stmt->bind_param("s", $email);
         }
         
-        $stmt = $this->conn->prepare($query);
-        call_user_func_array([$stmt, 'bind_param'], $params);
         $stmt->execute();
         $stmt->store_result();
-        
         $exists = $stmt->num_rows > 0;
         $stmt->close();
         
         return $exists;
     }
 }
-
-// Handle form submissions
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $userManager = new UserManagement($conn);
-    $result = null;
-    
-    if (isset($_POST['add'])) {
-        $result = $userManager->addUser($_POST['email'], $_POST['password'], $_POST['role']);
-    } 
-    elseif (isset($_POST['updateUser'])) {
-        $result = $userManager->updateUser($_POST['id'], $_POST['email'], $_POST['pass'], $_POST['role']);
-    }
-    elseif (isset($_POST['hapusUser'])) {
-        $result = $userManager->deleteUser($_POST['id']);
-    }
-    
-    // Handle response
-    if ($result !== null) {
-        echo "<script type='text/javascript'>
-                window.location.href='/stockbarang/user.php';
-                alert('" . $result['message'] . "');
-              </script>";
-        exit;
-    }
-}
-?>
