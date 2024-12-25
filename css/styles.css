@@ -3889,6 +3889,13 @@ input[type=button].btn-block {
 .nav-link:hover, .nav-link:focus {
   text-decoration: none;
 }
+.nav-link.active {
+  background-color: #007bff; /* Ganti dengan warna yang diinginkan */
+  color: white; /* Teks putih untuk kontras */
+}
+.nav-link.active .sb-nav-link-icon i {
+  color: white; /* Ikon juga berubah warna */
+}
 .nav-link.disabled {
   color: #6c757d;
   pointer-events: none;

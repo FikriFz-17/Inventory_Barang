@@ -50,11 +50,11 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Menu</div>
-                            <a class="nav-link" href="index.php">
+                            <a class="nav-link <?= basename($_SERVER['PHP_SELF']) === 'index.php' ? 'active' : '' ?>" href="index.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Kelola Barang
                             </a>
-                            <a class="nav-link" href="user.php">
+                            <a class="nav-link <?= basename($_SERVER['PHP_SELF']) === 'user.php' ? 'active' : '' ?>" href="user.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Kelola User
                             </a>
