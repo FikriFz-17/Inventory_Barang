@@ -93,6 +93,11 @@ if (isset($_POST['login'])) {
                                         <?php 
                                             if (isset($_GET['error'])) { // Periksa apakah parameter 'error' ada di URL
                                                 echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($_GET['error']) . '</div>';
+                                                echo '<script>
+                                                    window.setTimeout(() => {
+                                                        window.location.href = "login.php";
+                                                    }, 1500);
+                                                </script>';
                                             }
                                         ?>
                                             
