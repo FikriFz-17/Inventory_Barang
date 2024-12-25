@@ -1,3 +1,4 @@
 Connection/.env
-
-
+.phpunit.result.cache
+script.js
+coretan.txt

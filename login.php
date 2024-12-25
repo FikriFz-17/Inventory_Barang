@@ -1,71 +1,9 @@
-<?php 
-session_start();
-require "Connection/function.php";
-
-// Cek apakah pengguna sudah login
-if (isset($_SESSION['login']) && $_SESSION['login'] === TRUE) {
-    // Redirect berdasarkan role yang tersimpan di session
-    if ($_SESSION['role'] === "Admin") {
-        header('location:index.php');
-        exit;
-    } elseif ($_SESSION['role'] === "User") {
-        header('location:index2.php');
-        exit;
-    }
-}
-
-// Cek login terdaftar atau tidak
-if (isset($_POST['login'])) {
-    $email = trim($_POST['email']);
-    $pass = trim($_POST['password']);
-    $role = trim($_POST['role']);
-
-    // Validasi input kosong
-    if (empty($email)) {
-        header('location:login.php?error=Email+harus+diisi');
-        exit;
-    }
-
-    if (empty($pass)) {
-        header('location:login.php?error=Password+harus+diisi');
-        exit;
-    }
-
-    if (empty($role)) {
-        header('location:login.php?error=Harap+masukkan+role');
-        exit;
-    }
-
-    // Periksa email, password, dan role di database
-    $query = mysqli_prepare($conn, "SELECT iduser, password, role FROM login WHERE email = ?");
-    mysqli_stmt_bind_param($query, "s", $email);
-    mysqli_stmt_execute($query);
-    mysqli_stmt_bind_result($query, $iduser, $hashed_password, $user_role);
-    mysqli_stmt_fetch($query);
-    mysqli_stmt_close($query);
-
-    // Verifikasi password dan role
-    if ($hashed_password && password_verify($pass, $hashed_password) && $role === $user_role) {
-        $_SESSION['login'] = TRUE;
-        $_SESSION['email'] = $email;
-        $_SESSION['userId'] = $iduser;
-        $_SESSION['role'] = $user_role;
-        
-        // Redirect berdasarkan role
-        if ($role == "Admin") {
-            header('location:index.php');
-        } elseif ($role == "User") {
-            header('location:index2.php');
-        }
-        exit;
-    } else {
-        header('location:login.php?error=Credential+atau+role+tidak+valid');
-        exit;
-    }
-}
+<?php
+// login.php
+require "control/login.php";
+// Tampilkan pesan error jika ada
+$error = isset($_GET['error']) ? htmlspecialchars($_GET['error']) : '';
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -89,17 +27,15 @@ if (isset($_POST['login'])) {
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                     <div class="card-body">
-                                        <form method="post">
-                                        <?php 
-                                            if (isset($_GET['error'])) { // Periksa apakah parameter 'error' ada di URL
-                                                echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($_GET['error']) . '</div>';
+                                        <form action="login.php" method="POST">
+                                        <?php if ($error):
+                                            echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($error) . '</div>';
                                                 echo '<script>
                                                     window.setTimeout(() => {
                                                         window.location.href = "login.php";
                                                     }, 1500);
                                                 </script>';
-                                            }
-                                        ?>
+                                        endif; ?>
                                             
                                             <div class="form-group">
                                                 <label class="small mb-1" for="inputEmailAddress">Email</label>
