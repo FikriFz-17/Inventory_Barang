@@ -1,160 +1,153 @@
 <?php
-namespace Tests;
-
 use PHPUnit\Framework\TestCase;
-use App\UserManagement;
-use App\Database\DatabaseInterface;
-
-class MockDatabase implements DatabaseInterface {
-    private $shouldSucceed;
-    private $returnRows;
-    
-    public function __construct(bool $shouldSucceed = true, array $returnRows = []) {
-        $this->shouldSucceed = $shouldSucceed;
-        $this->returnRows = $returnRows;
-    }
-    
-    public function prepare($query) {
-        return new MockStatement($this->shouldSucceed);
-    }
-    
-    public function query($query) {
-        return new MockResult($this->returnRows);
-    }
-}
-
-class MockStatement {
-    private $shouldSucceed;
-    
-    public function __construct(bool $shouldSucceed) {
-        $this->shouldSucceed = $shouldSucceed;
-    }
-    
-    public function bind_param() {
-        return true;
-    }
-    
-    public function execute() {
-        return $this->shouldSucceed;
-    }
-    
-    public function store_result() {
-        return true;
-    }
-    
-    public function close() {
-        return true;
-    }
-    
-    public $num_rows = 0;
-}
-
-class MockResult {
-    private $rows;
-    private $position = 0;
-    
-    public function __construct(array $rows) {
-        $this->rows = $rows;
-    }
-    
-    public function fetch_assoc() {
-        if ($this->position >= count($this->rows)) {
-            return null;
-        }
-        return $this->rows[$this->position++];
-    }
-}
+require "./control/crudUserController.php";
 
 class crudUserTest extends TestCase {
-    private $userManagement;
-    private $mockDb;
+    private $crudUser;
+    private $conn;
     
     protected function setUp(): void {
-        $this->mockDb = new MockDatabase();
-        $this->userManagement = new UserManagement($this->mockDb);
+        // Setup test database connection
+        $this->conn = new mysqli("localhost", "root", "root123", "test_stockbarang");
+        
+        // Create test table if not exists
+        $this->conn->query("CREATE TABLE IF NOT EXISTS login (
+            iduser INT(11) AUTO_INCREMENT PRIMARY KEY,
+            email VARCHAR(255) NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            role VARCHAR(11) DEFAULT NULL
+        )");
+        
+        $this->crudUser = new crudUser($this->conn);
+        
+        // Clear existing test data
+        $this->conn->query("TRUNCATE TABLE login");
+    }
+    
+    protected function tearDown(): void {
+        // Clean up
+        $this->conn->query("TRUNCATE TABLE login");
+        $this->conn->close();
     }
     
     public function testAddUserSuccess() {
-        $result = $this->userManagement->addUser(
+        // Test adding new user
+        $result = $this->crudUser->addUser(
             'test@example.com',
-            'password123',
+            'TestPass123!',
             'User'
         );
         
         $this->assertTrue($result['success']);
         $this->assertEquals("User berhasil ditambahkan", $result['message']);
+        
+        // Verify user was added to database
+        $stmt = $this->conn->prepare("SELECT * FROM login WHERE email = ?");
+        $email = 'test@example.com';
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $queryResult = $stmt->get_result();
+        $user = $queryResult->fetch_assoc();
+        
+        $this->assertNotNull($user);
+        $this->assertEquals('test@example.com', $user['email']);
+        $this->assertEquals('User', $user['role']);
+        $this->assertTrue(password_verify('TestPass123!', $user['password']));
     }
     
-    public function testAddUserFailure() {
-        $mockDb = new MockDatabase(false);
-        $userManagement = new UserManagement($mockDb);
+    public function testAddUserDuplicateEmail() {
+        // First add a user
+        $this->crudUser->addUser('test@example.com', 'TestPass123!', 'User');
         
-        $result = $userManagement->addUser(
+        // Try to add another user with same email
+        $result = $this->crudUser->addUser(
             'test@example.com',
-            'password123',
-            'User'
+            'DifferentPass123!',
+            'Admin'
         );
         
         $this->assertFalse($result['success']);
-        $this->assertEquals("Gagal menambahkan user", $result['message']);
+        $this->assertEquals("Email yang anda masukkan sudah terdaftar", $result['message']);
     }
     
     public function testUpdateUserSuccess() {
-        $result = $this->userManagement->updateUser(
-            1,
-            'test@example.com',
-            'newpassword123',
+        // First add a user
+        $this->crudUser->addUser('test@example.com', 'TestPass123!', 'User');
+        
+        // Get the user's ID
+        $stmt = $this->conn->prepare("SELECT iduser FROM login WHERE email = ?");
+        $email = 'test@example.com';
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        
+        // Update the user
+        $result = $this->crudUser->updateUser(
+            $user['iduser'],
+            'updated@example.com',
+            'NewPass123!',
             'Admin'
         );
         
         $this->assertTrue($result['success']);
         $this->assertEquals("Data berhasil diperbarui", $result['message']);
-    }
-    
-    public function testUpdateUserFailure() {
-        $mockDb = new MockDatabase(false);
-        $userManagement = new UserManagement($mockDb);
         
-        $result = $userManagement->updateUser(
-            1,
-            'test@example.com',
-            'newpassword123',
-            'Admin'
-        );
+        // Verify the update
+        $stmt = $this->conn->prepare("SELECT * FROM login WHERE iduser = ?");
+        $stmt->bind_param("i", $user['iduser']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $updatedUser = $result->fetch_assoc();
         
-        $this->assertFalse($result['success']);
-        $this->assertEquals("Gagal memperbarui data", $result['message']);
+        $this->assertEquals('updated@example.com', $updatedUser['email']);
+        $this->assertEquals('Admin', $updatedUser['role']);
+        $this->assertTrue(password_verify('NewPass123!', $updatedUser['password']));
     }
     
     public function testDeleteUserSuccess() {
-        $result = $this->userManagement->deleteUser(1);
+        // First add a user
+        $this->crudUser->addUser('test@example.com', 'TestPass123!', 'User');
+        
+        // Get the user's ID
+        $stmt = $this->conn->prepare("SELECT iduser FROM login WHERE email = ?");
+        $email = 'test@example.com';
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        
+        // Delete the user
+        $result = $this->crudUser->deleteUser($user['iduser']);
         
         $this->assertTrue($result['success']);
         $this->assertEquals("User berhasil dihapus", $result['message']);
-    }
-    
-    public function testDeleteUserFailure() {
-        $mockDb = new MockDatabase(false);
-        $userManagement = new UserManagement($mockDb);
         
-        $result = $userManagement->deleteUser(1);
+        // Verify the user was deleted
+        $stmt = $this->conn->prepare("SELECT * FROM login WHERE iduser = ?");
+        $stmt->bind_param("i", $user['iduser']);
+        $stmt->execute();
+        $result = $stmt->get_result();
         
-        $this->assertFalse($result['success']);
-        $this->assertEquals("Gagal menghapus user", $result['message']);
+        $this->assertEquals(0, $result->num_rows);
     }
     
     public function testGetAllUsers() {
-        $mockData = [
-            ['iduser' => 1, 'email' => 'test1@example.com', 'role' => 'User'],
-            ['iduser' => 2, 'email' => 'test2@example.com', 'role' => 'Admin']
+        // Add multiple test users
+        $testUsers = [
+            ['email' => 'user1@example.com', 'password' => 'Pass123!', 'role' => 'User'],
+            ['email' => 'user2@example.com', 'password' => 'Pass123!', 'role' => 'Admin']
         ];
         
-        $mockDb = new MockDatabase(true, $mockData);
-        $userManagement = new UserManagement($mockDb);
+        foreach ($testUsers as $user) {
+            $this->crudUser->addUser($user['email'], $user['password'], $user['role']);
+        }
         
-        $result = $userManagement->getAllUsers();
+        // Get all users
+        $users = $this->crudUser->getAllUsers();
         
-        $this->assertEquals($mockData, $result);
+        $this->assertCount(2, $users);
+        $this->assertEquals('user1@example.com', $users[0]['email']);
+        $this->assertEquals('user2@example.com', $users[1]['email']);
     }
 }
-?>

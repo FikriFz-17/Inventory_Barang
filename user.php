@@ -1,12 +1,15 @@
 <?php 
-    require "Connection/function.php";
-    require "control/CekIsLogin.php";
-    require "control/crudUser.php";
+require "Connection/function.php";
+require "control/CekIsLogin.php";
+require "control/crudUserHandler.php";
 
-    if (!isset($_SESSION['login']) || $_SESSION['role'] !== "Admin") {
-        header('location:login.php');
-        exit;
-    }
+if (!isset($_SESSION['login']) || $_SESSION['role'] !== "Admin") {
+    header('location:login.php');
+    exit;
+}
+
+$userManager = new crudUser($conn);
+$users = getAllUsers($userManager);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,10 +120,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <!-- Tampilkan data dari database ke halaman web -->
+                                            <!-- Tampilkan data dari controller ke halaman web -->
                                             <?php 
-                                                $selectALL = mysqli_query($conn, "SELECT * FROM login");
-                                                while ($data = mysqli_fetch_array($selectALL)) {
+                                                foreach ($users as $data) {
                                                     $id = $data['iduser'];
                                                     $email = $data['email'];
                                                     $role = $data['role'];
@@ -128,70 +130,68 @@
                                                         continue;
                                                     }
                                             ?>
-                                            
-                                                    <tr>
-                                                        <td><?= htmlspecialchars($email); ?></td>
-                                                        <td><?= htmlspecialchars($role); ?></td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-warning btn-sm my-1" data-toggle="modal" data-target="#edit<?= $id; ?>">Edit</button>
-                                                            <button type="button" class="btn btn-danger btn-sm my-1" data-toggle="modal" data-target="#delete<?= $id; ?>">Delete</button>
-                                                        </td>
-                                                    </tr>
+                                                <tr>
+                                                    <td><?= htmlspecialchars($email); ?></td>
+                                                    <td><?= htmlspecialchars($role); ?></td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-warning btn-sm my-1" data-toggle="modal" data-target="#edit<?= $id; ?>">Edit</button>
+                                                        <button type="button" class="btn btn-danger btn-sm my-1" data-toggle="modal" data-target="#delete<?= $id; ?>">Delete</button>
+                                                    </td>
+                                                </tr>
 
-                                                    <!--  Edit Modals-->
-                                                        <div class="modal fade" id="edit<?=$id;?>">
-                                                            <div class="modal-dialog">
-                                                            <div class="modal-content">
+                                                <!--  Edit Modals-->
+                                                    <div class="modal fade" id="edit<?=$id;?>">
+                                                        <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                        
+                                                            <!-- Modal Header -->
+                                                            <div class="modal-header">
+                                                            <h4 class="modal-title">Edit User</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            </div>
                                                             
-                                                                <!-- Modal Header -->
-                                                                <div class="modal-header">
-                                                                <h4 class="modal-title">Edit User</h4>
-                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <!-- Modal body -->
+                                                            <form method="post">
+                                                                <div class="modal-body">
+                                                                    <input type="email" name="email" value="<?= htmlspecialchars($email); ?>" class="form-control my-3" required>
+                                                                    <input type="password" name="pass" placeholder="Password" class="form-control my-3">
+                                                                    <select class="form-control mb-3" aria-label="Default select example" name="role">
+                                                                        <option value="User" <?= $role === 'User' ? 'selected' : ''; ?>>User</option>
+                                                                        <option value="Admin" <?= $role === 'Admin' ? 'selected' : ''; ?>>Admin</option>
+                                                                    </select>
+                                                                    <button type="submit" class="btn btn-warning my-3" name="updateUser">Edit</button>
+                                                                    <input type="hidden" name="id" value="<?=$id;?>">
                                                                 </div>
-                                                                
-                                                                <!-- Modal body -->
-                                                                <form method="post">
-                                                                    <div class="modal-body">
-                                                                        <input type="email" name="email" value="<?= htmlspecialchars($email); ?>" class="form-control my-3" required>
-                                                                        <input type="password" name="pass" placeholder="Password" class="form-control my-3">
-                                                                        <select class="form-control mb-3" aria-label="Default select example" name="role">
-                                                                            <option value="User" <?= $role === 'User' ? 'selected' : ''; ?>>User</option>
-                                                                            <option value="Admin" <?= $role === 'Admin' ? 'selected' : ''; ?>>Admin</option>
-                                                                        </select>
-                                                                        <button type="submit" class="btn btn-warning my-3" name="updateUser">Edit</button>
-                                                                        <input type="hidden" name="id" value="<?=$id;?>">
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                            </div>
+                                                            </form>
                                                         </div>
-                                                    
-                                                     <!--  Delete Modals-->
-                                                     <div class="modal fade" id="delete<?=$id;?>">
-                                                            <div class="modal-dialog">
-                                                            <div class="modal-content">
+                                                        </div>
+                                                    </div>
+                                                
+                                                 <!--  Delete Modals-->
+                                                 <div class="modal fade" id="delete<?=$id;?>">
+                                                        <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                        
+                                                            <!-- Modal Header -->
+                                                            <div class="modal-header">
+                                                            <h4 class="modal-title">Hapus User</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            </div>
                                                             
-                                                                <!-- Modal Header -->
-                                                                <div class="modal-header">
-                                                                <h4 class="modal-title">Hapus User</h4>
-                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <!-- Modal body -->
+                                                            <form method="post">
+                                                                <div class="modal-body">
+                                                                    Hapus user dengan email <?= htmlspecialchars($email); ?>?
+                                                                    <input type="hidden" name="id" value="<?=$id;?>">
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-danger my-3" name="hapusUser">Delete</button>
                                                                 </div>
-                                                                
-                                                                <!-- Modal body -->
-                                                                <form method="post">
-                                                                    <div class="modal-body">
-                                                                        Hapus user dengan email <?= htmlspecialchars($email); ?>?
-                                                                        <input type="hidden" name="id" value="<?=$id;?>">
-                                                                        <br>
-                                                                        <button type="submit" class="btn btn-danger my-3" name="hapusUser">Delete</button>
-                                                                    </div>
-                                                                </form>
-                                                                
-                                                            </div>
-                                                            </div>
+                                                            </form>
                                                         </div>
+                                                        </div>
+                                                    </div>
                                             <?php 
-                                            } // Tutup kurung kurawal untuk while loop
+                                            } // Tutup kurung kurawal untuk foreach
                                             ?>
                                         </tbody>
                                     </table>
