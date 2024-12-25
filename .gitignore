@@ -1,5 +1,4 @@
-composer.json
-composer.lock
 Connection/.env
-
-
+.phpunit.result.cache
+script.js
+coretan.txt
