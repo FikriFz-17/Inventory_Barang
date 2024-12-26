@@ -299,5 +299,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> <!-- plugin kalo mau export ke excel -->
         <!-- jquery end -->
         <script src="export.js"></script>
+        <script src="js/scripts.js"></script>
     </body>
 </html>
