@@ -121,10 +121,10 @@ class crudBarang {
         ];
     }
     
-    public function getAllBarang($userId = null) {
-        $query = $userId 
-            ? "SELECT * FROM barang WHERE owner_id='$userId'"
-            : "SELECT * FROM barang";
+    public function getAllBarang($userId = null, $isAdmin = true) {
+        $query = $isAdmin
+            ? "SELECT * FROM barang"
+            : "SELECT * FROM barang WHERE owner_id='$userId'";
         return mysqli_query($this->conn, $query);
     }
 }
