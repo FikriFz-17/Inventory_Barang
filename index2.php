@@ -1,12 +1,14 @@
 <?php 
     require "Connection/function.php";
     require "control/CekIsLogin.php";
-    require "control/crudBarang.php";
+    require "control/crudBarangHandler.php";
 
     if (!isset($_SESSION['login']) || $_SESSION['role'] !== "User") {
         header('location:login.php');
         exit;
     }
+
+    $crudBarang = new crudBarang($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -155,8 +157,7 @@
                                         <tbody>
                                             <!-- Tampilkan data dari database ke halaman web -->
                                             <?php 
-                                                $userid = $_SESSION["userId"];
-                                                $selectALL = mysqli_query($conn, "SELECT * FROM barang WHERE owner_id='$userid'");
+                                                $selectALL = $crudBarang->getAllBarang();
                                                 while ($data = mysqli_fetch_array($selectALL)) {
                                                     $idb = $data['idbarang'];
                                                     $kodeb = $data['kode'];
