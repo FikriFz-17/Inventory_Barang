@@ -16,12 +16,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Handle response
-    if ($result !== null) {
-        echo "<script type='text/javascript'>
-                window.location.href='/stockbarang/user.php';
-                alert('" . $result['message'] . "');
-              </script>";
-        exit;
+    if (!$result['success']) {
+        $_SESSION['errorMessage'] = $result['message'];
+    } else {
+        $_SESSION['successMessage'] = $result['message'];
     }
 }
 
