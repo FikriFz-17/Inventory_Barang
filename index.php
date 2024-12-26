@@ -1,7 +1,7 @@
 <?php 
     require "Connection/function.php";
     require "control/CekIsLogin.php";
-    require "control/crudBarang.php";
+    require "control/crudBarangHandler.php";
 
     session_start();
 
