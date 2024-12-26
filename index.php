@@ -10,6 +10,8 @@
         header('location:login.php');
         exit;
     }
+
+    $crudBarang = new crudBarang($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -113,7 +115,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Delete Modals -->
+                                <!-- Add Modals -->
                                 <div class="modal fade" id="delete">
                                     <div class="modal-dialog">
                                     <div class="modal-content">
@@ -159,7 +161,7 @@
                                         <tbody>
                                             <!-- Tampilkan data dari database ke halaman web -->
                                             <?php 
-                                                $selectALL = mysqli_query($conn, "SELECT * FROM barang");
+                                                $selectALL = $crudBarang->getAllBarang();
                                                 while ($data = mysqli_fetch_array($selectALL)) {
                                                     $idb = $data['idbarang'];
                                                     $kodeb = $data['kode'];
