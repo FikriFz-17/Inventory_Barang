@@ -48,7 +48,7 @@ class CrudBarangTest extends TestCase
         );
         
         $this->assertTrue($result['success']);
-        $this->assertEquals('Barang added successfully', $result['message']);
+        $this->assertEquals('Barang berhasil ditambahkan', $result['message']);
         
         // Verify barang was added to database
         $stmt = $this->conn->prepare("SELECT * FROM barang WHERE kode = ?");
@@ -114,7 +114,7 @@ class CrudBarangTest extends TestCase
         );
         
         $this->assertTrue($result['success']);
-        $this->assertEquals('Barang updated successfully', $result['message']);
+        $this->assertEquals('Barang berhasil diubah', $result['message']);
         
         // Verify the update
         $stmt = $this->conn->prepare("SELECT * FROM barang WHERE idbarang = ?");
@@ -173,7 +173,7 @@ class CrudBarangTest extends TestCase
         $result = $this->crudBarang->deleteBarang($barang['idbarang'], 1);
         
         $this->assertTrue($result['success']);
-        $this->assertEquals('Barang deleted successfully', $result['message']);
+        $this->assertEquals('Barang berhasil dihapus', $result['message']);
         
         // Verify the barang was deleted
         $stmt = $this->conn->prepare("SELECT * FROM barang WHERE idbarang = ?");
@@ -215,7 +215,7 @@ class CrudBarangTest extends TestCase
         $this->assertEquals('Mouse', $barangList[1]['namabarang']);
         
         // Test getAllBarang with userId (user view)
-        $userBarang = $this->crudBarang->getAllBarang(1);
+        $userBarang = $this->crudBarang->getAllBarang(1, false);
         $userBarangList = [];
         while ($row = $userBarang->fetch_assoc()) {
             $userBarangList[] = $row;
