@@ -55,7 +55,7 @@ class crudBarang {
         if ($result) {
             return [
                 'success' => true,
-                'message' => 'Barang added successfully'
+                'message' => 'Barang berhasil ditambahkan'
             ];
         }
         
@@ -92,7 +92,7 @@ class crudBarang {
         if ($result) {
             return [
                 'success' => true,
-                'message' => 'Barang updated successfully'
+                'message' => 'Barang berhasil diubah'
             ];
         }
         
@@ -111,7 +111,7 @@ class crudBarang {
         if ($result) {
             return [
                 'success' => true,
-                'message' => 'Barang deleted successfully'
+                'message' => 'Barang berhasil dihapus'
             ];
         }
         

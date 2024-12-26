@@ -3,9 +3,6 @@
     require "control/CekIsLogin.php";
     require "control/crudBarangHandler.php";
 
-    session_start();
-
-
     if (!isset($_SESSION['login']) || $_SESSION['role'] !== "Admin") {
         header('location:login.php');
         exit;
@@ -209,17 +206,7 @@
                                                                         <input type="hidden" name="kodeb" value="<?=$kodeb;?>">
                                                                     </div>
                                                                 </form>
-                                                                <?php if (!empty($_SESSION['errorMessage'])): ?>
-                                                                    <script>
-                                                                        Swal.fire({
-                                                                            icon: 'error',
-                                                                            title: 'Input Tidak Valid!',
-                                                                            text: '<?= $_SESSION['errorMessage']; ?>',
-                                                                            confirmButtonText: 'Kembali'
-                                                                        });
-                                                                    </script>
-                                                                    <?php unset($_SESSION['errorMessage']); // Hapus setelah ditampilkan ?>
-                                                                <?php endif; ?>
+                                                                
                                                             </div>
                                                             </div>
                                                         </div>
@@ -259,6 +246,29 @@
                             </div>
                         </div>
                     </div>
+                    <?php if (!empty($_SESSION['errorMessage'])): ?>
+                        <script>
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Input Tidak Valid!',
+                                text: '<?= $_SESSION['errorMessage']; ?>',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        </script>
+                        <?php unset($_SESSION['errorMessage']);?>
+                    <?php elseif (!empty($_SESSION['successMessage'])): ?>
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: '<?= $_SESSION['successMessage']; ?>',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        </script>
+                        <?php unset($_SESSION['successMessage']);?>
+                    <?php endif; ?>
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">

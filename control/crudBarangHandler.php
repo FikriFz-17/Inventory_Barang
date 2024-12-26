@@ -19,6 +19,10 @@ class crudBarangHandler {
         $_SESSION['errorMessage'] = $message;
         $this->redirectBasedOnRole();
     }
+    private function setSuccessMessage($message) {
+        $_SESSION['successMessage'] = $message;
+        $this->redirectBasedOnRole();
+    }
     
     public function handleAddRequest($postData) {
         $result = $this->controller->addBarang(
@@ -32,6 +36,8 @@ class crudBarangHandler {
         
         if (!$result['success']) {
             $this->setErrorMessage($result['error']);
+        } else {
+            $this->setSuccessMessage($result['message']);
         }
         
         $this->redirectBasedOnRole();
@@ -51,6 +57,8 @@ class crudBarangHandler {
         
         if (!$result['success']) {
             $this->setErrorMessage($result['error']);
+        } else {
+            $this->setSuccessMessage($result['message']);
         }
         
         $this->redirectBasedOnRole();
@@ -66,6 +74,8 @@ class crudBarangHandler {
         
         if (!$result['success']) {
             $this->setErrorMessage($result['error']);
+        } else {
+            $this->setSuccessMessage($result['message']);
         }
         
         $this->redirectBasedOnRole();
