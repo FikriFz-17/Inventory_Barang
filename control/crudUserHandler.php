@@ -9,10 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $userManager->addUser($_POST['email'], $_POST['password'], $_POST['role']);
     } 
     elseif (isset($_POST['updateUser'])) {
-        $result = $userManager->updateUser($_POST['id'], $_POST['email'], $_POST['pass'], $_POST['role']);
+        $result = $userManager->updateUser($_POST['id'], $_POST['email'], $_POST['pass'], $_POST['role']) + $userManager->updateBarangUser($_POST['id'], $_POST['email']);
     }
     elseif (isset($_POST['hapusUser'])) {
-        $result = $userManager->deleteUser($_POST['id']);
+        $result = $userManager->deleteUser($_POST['id']) + $userManager->deleteBarangUser($_POST['id']);
     }
 
     // Handle response

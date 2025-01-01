@@ -1,5 +1,6 @@
 <?php
 require_once "./Connection/function.php";
+require_once "./control/crudBarangController.php";
 
 class crudUser {
     private $conn;
@@ -57,6 +58,27 @@ class crudUser {
             'message' => $result ? "Data berhasil diperbarui" : "Gagal memperbarui data"
         ];
     }
+
+    public function updateBarangUser($id, $email) {
+        $crudBarang = new crudBarang($this->conn);
+        $name = $crudBarang->getOwnerName($email);
+        if (!$name) {
+            return [
+                'success' => false,
+                'error' => 'Failed to get owner name'
+            ];
+        }
+        $stmt = $this->conn->prepare("UPDATE barang SET name=? WHERE owner_id=?");
+        $stmt->bind_param("si", $name, $id);
+        
+        $result = $stmt->execute();
+        $stmt->close();
+        
+        return [
+            'success' => $result,
+            'message' => $result ? "Data berhasil diperbarui" : "Gagal memperbarui data"
+        ];
+    }
     
     public function deleteUser($id) {
         $stmt = $this->conn->prepare("DELETE FROM login WHERE iduser=?");
@@ -68,6 +90,19 @@ class crudUser {
         return [
             'success' => $result,
             'message' => $result ? "User berhasil dihapus" : "Gagal menghapus user"
+        ];
+    }
+
+    public function deleteBarangUser($id) {
+        $stmt = $this->conn->prepare("DELETE FROM barang WHERE owner_id=?");
+        $stmt->bind_param("i", $id);
+        
+        $result = $stmt->execute();
+        $stmt->close();
+        
+        return [
+            'success' => $result,
+            'message' => $result ? "Barang berhasil dihapus" : "Gagal menghapus barang"
         ];
     }
     
